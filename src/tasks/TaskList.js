@@ -7,6 +7,7 @@ const api = 'http://localhost:3001';
 function TaskList() {
 	const [tasks, setTasks] = useState([]);
 	const [newTask, setNewTask] = useState("");
+	const [date, setDate] = useState("");
   	const [value, setValue] = useState("default");
 
 	useEffect(() => {
@@ -32,6 +33,9 @@ function TaskList() {
 			if (newTask === "") {
 				alert("Set text")
 			}
+			if (date === "") {
+            alert("Set Date")
+            }
 			else {
 			const data = await fetch(api + "/task/new", {
 				method: "POST",
@@ -40,6 +44,7 @@ function TaskList() {
 				},
 				body: JSON.stringify({
 					text: newTask,
+					date: date,
 					priority: value
 				})
 			}).then(res => res.json());
@@ -49,6 +54,7 @@ function TaskList() {
 			setTasks([...tasks, data]);
 			}
 			setNewTask("");
+			setDate("");
 			setValue("default");
 				}	
 			}
@@ -73,6 +79,14 @@ function TaskList() {
             name='text'
             className='taskInput'
         />
+        <input
+                    type="text"
+                    onChange={e => setDate(e.target.value)}
+                    value={date}
+                    placeholder='Date'
+                    name='date'
+                    className='taskInput'
+                />
         <select defaultValue="default" value={value} onChange={addPriority} id="framework">
             <option value="default" disabled hidden>Priority</option>
             <option value="low">Low</option>
